@@ -1,0 +1,62 @@
+<!--Home: aquí se mostrarán los posts de las personas que sigues-->
+
+<!-- templates/home.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/locale/es.min.js"></script>
+
+</head>
+
+<body>
+    <header>
+        <h1 class="home-header">¡Hola, {{ nombre }}!</h1>
+    </header>
+
+    <!-- Formulario para escribir un nuevo post -->
+    <div class="new-post-container">
+      <form action="/home" method="POST">
+          <textarea name="contenido" placeholder="Escribe un nuevo post..." required></textarea><br>
+          <button type="submit">Publicar</button>
+      </form>
+  </div>
+  
+    <!-- Mostrar mensaje si el usuario no sigue a nadie -->
+    {% if mensaje %}
+    <p class="home-mensaje"> {{ mensaje }}</p>
+    {% endif %}
+
+    <!-- Mostrar los posts -->
+    <div class="posts-container">
+        {% for post in posts %}
+        <div class="post">
+            <div class="post-header">
+                <strong>{{ post['nombre'] }}</strong>
+                <span class="post-date" data-date="{{ post['fecha'] }}"></span>
+            </div>
+            <div class="post-content">
+                <p>{{ post['contenido'] }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <script>
+        document.querySelectorAll('.post-date').forEach(dateElement => {
+        const rawDate = dateElement.getAttribute('data-date');
+        moment.locale('es');
+        const formattedDate = moment(rawDate).fromNow(); // No format needed for ISO 8601
+        dateElement.textContent = formattedDate;
+        });
+        
+    </script>
+    
+</body>
+
+</html>   
+  

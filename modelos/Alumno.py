@@ -1,0 +1,50 @@
+
+from config.sql_config import db
+from modelos.Carrera import Carrera
+from modelos.Semestre import Semestre
+
+# IDs de admins
+admin_ids = ['000000', '478483']
+
+# Alumno model
+
+class Alumno(db.Model):
+    __tablename__ = 'alumnos'
+    id = db.Column(db.Integer, primary_key=True)
+    contrasenia = db.Column(db.String(255), nullable=False)
+    nombre = db.Column(db.String(100), nullable=False)
+    apellidos = db.Column(db.String(100))
+    bio = db.Column(db.String(200))
+    rol = db.Column(db.String(20), default="usuario")
+    carrera_id = db.Column(db.Integer, db.ForeignKey('carreras.id'), nullable=False)
+    semestre_id = db.Column(db.Integer, db.ForeignKey('semestres.id'), nullable=False)
+
+    semestre = db.relationship('Semestre', backref='alumnos')
+    carrera = db.relationship('Carrera', backref='alumnos')
+
+# Funciones CRUD (crear, leer, actualizar, eliminar)
+# id, nombre, apellido, contrasenia, carrera, semestre 
+def registrar_alumno(id,nombre, apellidos, contrasenia, carrera, semestre):
+    try:
+        
+        if str(id) in admin_ids:
+            rol = 'admin'
+        else:
+            rol = 'usuario'
+        
+        nuevo_alumno = Alumno(
+            id = id,
+            nombre = nombre,
+            apellidos = apellidos,
+            contrasenia = contrasenia,
+            carrera_id = carrera,
+            semestre_id = semestre,
+            rol = rol
+            
+        )
+        db.session.add(nuevo_alumno)
+        db.session.commit()
+        print("Alumno creado con éxito") 
+    except Exception as e:
+        db.session.rollback()  
+        print(f'Error al registrar el alumno: {str(e)}')

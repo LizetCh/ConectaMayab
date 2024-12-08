@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conecta Mayab - Inicio</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+</head>
+<body>
+    <div class="forms-container">
+        <h1>Bienvenido a Conecta Mayab</h1>
+        
+        <!-- Formulario de inicio de sesión -->
+        <!-- -->
+        
+
+        <form action="/login" method="POST">
+            <label for="id">ID (Sin ceros):</label>
+            <input type="number" id="id" name="id" required>
+            
+            <label for="contrasenia">Contraseña:</label>
+            <input type="password" id="contrasenia" name="contrasenia" required>
+            
+            <button type="submit">Iniciar sesión</button>
+        </form>
+
+        <!-- Mostrar mensaje de error -->
+        {% if error %}
+            <div class="error-message">{{ error }}</div>
+        {% endif %}
+        
+        <!-- Botón para redirigir al registro -->
+        <div class="registro-link">
+            <p class = enlace-registro>¿No tienes cuenta? <a href="/registro">Registrarse</a></p>
+        </div>
+    </div>
+</body>
+</html>
+
+

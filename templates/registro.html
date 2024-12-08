@@ -1,0 +1,86 @@
+<!-- Este archivo contiene el código HTML que se muestra en la página de registro de alumnos. -->
+
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Alumno</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="forms-container">
+        <h1>Formulario de Registro</h1>
+
+        <!--nombre, apellido, id, contrasenia, carrera, semestre -->
+        <form action="/registro" method="POST">
+            
+            <label for="id">ID (Sin ceros)</label>
+            <input type="number" id="id" name="id" required>
+            
+            <label for="nombre">Nombre(s):</label>
+            <input type="text" id="nombre" name="nombre" required>
+
+            <label for="apellido">Apellidos:</label>
+            <input type="text" id="apellido" name="apellido" required>
+
+            <label for="contrasenia">Contraseña:</label>
+            <input type="password" id="contrasenia" name="contrasenia" required>
+
+            <label for="carrera">Carrera:</label>
+            <select id="carrera" name="carrera" required>
+                <option value="">Selecciona tu carrera</option>
+                <option value="1">Administración y Dirección de Empresas</option>
+                <option value="2">Arquitectura</option>
+                <option value="3">Biotecnología</option>
+                <option value="4">Comunicación</option>
+                <option value="5">Derecho</option>
+                <option value="6">Dirección de Empresas de Entretenimiento</option>
+                <option value="7">Dirección del Deporte</option>
+                <option value="8">Diseño de Moda e Innovación</option>
+                <option value="9">Diseño Gráfico</option>
+                <option value="10">Diseño Industrial</option>
+                <option value="11">Diseño Multimedia</option>
+                <option value="12">Finanzas y Contaduría Pública</option>
+                <option value="13">Gastronomía</option>
+                <option value="14">Ingeniería Ambiental</option>
+                <option value="15">Ingeniería Biomédica</option>
+                <option value="16">Ingeniería Civil</option>
+                <option value="17">Ingeniería en Animación Digital</option>
+                <option value="18">Ingeniería en Energías Sustentables</option>
+                <option value="19">Ingeniería en Tecnologías de Información y Negocios Digitales</option>
+                <option value="20">Ingeniería Industrial</option>
+                <option value="21">Ingeniería Mecatrónica</option>
+                <option value="22">Médico Cirujano</option>
+                <option value="23">Médico Cirujano Dentista</option>
+                <option value="24">Mercadotecnia Estratégica</option>
+                <option value="25">Negocios Internacionales</option>
+                <option value="26">Nutrición</option>
+                <option value="27">Psicología</option>
+                <option value="28">Psicopedagogía</option>
+                <option value="29">Relaciones Internacionales</option>
+                <option value="30">Terapia Física y Rehabilitación</option>
+                <option value="31">Turismo Internacional</option>
+            </select>
+
+            <label for="semestre">Semestre:</label>
+            <select id="semestre" name="semestre" required>
+                <option value="1">1° Semestre</option>
+                <option value="2">2° Semestre</option>
+                <option value="3">3° Semestre</option>
+                <option value="4">4° Semestre</option>
+                <option value="5">5° Semestre</option>
+                <option value="6">6° Semestre</option>
+                <option value="7">7° Semestre</option>
+                <option value="8">8° Semestre</option>
+                <option value="9">9° Semestre</option>
+                <option value="10">10° Semestre</option>
+                
+            </select>
+
+            <button type="submit">Registrar</button>
+        </form>
+    </div>
+</body>
+</html>
