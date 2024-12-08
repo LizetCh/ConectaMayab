@@ -145,6 +145,7 @@ def explorar():
         return redirect('/login')
     
     usuario = session['usuario']
+    nombre = session['nombre']
     
     # Obtiene los IDs de los usuarios que ya está siguiendo
     usuarios_seguidos_ids = obtener_seguidos(usuario)
@@ -155,7 +156,7 @@ def explorar():
         ~Alumno.id.in_(usuarios_seguidos_ids)  # Excluir los que ya sigue
     ).all()
 
-    return render_template('explorar.html', usuarios=usuarios_para_seguir)
+    return render_template('explorar.html', nombre = nombre, usuarios=usuarios_para_seguir)
 
 
 @app.route('/logout')

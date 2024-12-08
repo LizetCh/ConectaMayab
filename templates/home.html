@@ -14,31 +14,29 @@
 </head>
 
 <body>
-    <header>
-        <div class="menu">
-            <a href="/home">Inicio</a>
-            <a href="/explorar">Explorar</a>
-            <a href="/perfil">Perfil</a>
-            <a href="/logout">Cerrar sesión</a>
-        <h1 class="home-header">¡Hola, {{ nombre }}!</h1>
-    </header>
+    <
+    {% include "menu.html" %}
 
-    <!-- Formulario para escribir un nuevo post -->
-    <div class="new-post-container">
-      <form action="/home" method="POST">
-          <textarea name="contenido" placeholder="Escribe un nuevo post..." required></textarea><br>
-          <button type="submit">Publicar</button>
-      </form>
-  </div>
+    
+    <div class="posts-container">
+        <!-- Formulario para escribir un nuevo post -->
+        
+            <form action="/home" method="POST">
+                <div class="new-post-container">
+                <textarea name="contenido" placeholder="Escribe un nuevo post..." required></textarea><br>
+                <button type="submit">Publicar</button>
+            </div>
+            </form>
+        
   
-    <!-- Mostrar mensaje si el usuario no sigue a nadie -->
-    {% if mensaje %}
-    <p class="home-mensaje"> {{ mensaje }} 
-        <a href="{{ url_for('explorar') }}">Explorar</a></p>
-    {% endif %}
+        <!-- Mostrar mensaje si el usuario no sigue a nadie -->
+        {% if mensaje %}
+        <p class="home-mensaje"> {{ mensaje }} 
+            <a href="{{ url_for('explorar') }}">Explorar</a></p>
+        {% endif %}
 
     <!-- Mostrar los posts -->
-    <div class="posts-container">
+    
         {% for post in posts %}
         <div class="post">
             <div class="post-header">
