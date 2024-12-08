@@ -15,6 +15,11 @@
 
 <body>
     <header>
+        <div class="menu">
+            <a href="/home">Inicio</a>
+            <a href="/explorar">Explorar</a>
+            <a href="/perfil">Perfil</a>
+            <a href="/logout">Cerrar sesión</a>
         <h1 class="home-header">¡Hola, {{ nombre }}!</h1>
     </header>
 
@@ -28,7 +33,8 @@
   
     <!-- Mostrar mensaje si el usuario no sigue a nadie -->
     {% if mensaje %}
-    <p class="home-mensaje"> {{ mensaje }}</p>
+    <p class="home-mensaje"> {{ mensaje }} 
+        <a href="{{ url_for('explorar') }}">Explorar</a></p>
     {% endif %}
 
     <!-- Mostrar los posts -->

@@ -2,8 +2,7 @@ from datetime import datetime, timezone
 from flask import Flask, redirect, render_template,request, session
 from config.sql_config import connect_sql
 from config.mongo_config import connect_mongo
-from modelos.Alumno import Alumno, registrar_alumno
-from modelos.Seguidos import Seguidos
+from modelos.Alumno import Alumno, registrar_alumno, obtener_seguidos
 import os
 
 app = Flask(__name__)
@@ -21,6 +20,11 @@ def index():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+
+    # Verificar si el usuario ya está en la sesión
+    if 'usuario' in session:
+        return redirect('/home')
+
     if request.method == 'POST':
         
         id = request.form['id']
@@ -50,6 +54,11 @@ def login():
 
 @app.route('/registro', methods=['GET','POST'])
 def registrar():
+
+    # Verificar si el usuario ya está en la sesión
+    if 'usuario' in session:
+        return redirect('/home')
+
     if request.method == 'POST':
         try:
             #obtener los datos del formulario
@@ -92,11 +101,8 @@ def home():
             posts = list(db_mongo.posts.find().sort('fecha', -1))
             return render_template('home.html', usuario=usuario, nombre=nombre, posts=posts)
         
-        # Obtener los posts de los usuarios seguidos
-        seguidos = Seguidos.query.filter(Seguidos.id_seguidor == usuario).all()
-
-        # Extraemos los ids de los usuarios seguidos
-        ids_seguidos = [seguido.id_siguiendo for seguido in seguidos]
+        # Obtener los IDs de los usuarios seguidos
+        ids_seguidos = obtener_seguidos(usuario)
 
         # Si el usuario no sigue a nadie, mostrar el mensaje
         if not ids_seguidos:
@@ -110,10 +116,6 @@ def home():
     except Exception as e:
         print(f"Error al obtener los posts: {e}")
         posts = []  # Lista vacía si hay error
-    
-
-    
-    
 
     if request.method == 'POST':
         try:
@@ -136,6 +138,32 @@ def home():
     return render_template('home.html', usuario=usuario, nombre = nombre, posts=posts)
 
 
+@app.route('/explorar', methods=['GET'])
+def explorar():
+    # Verifica que el usuario esté autenticado
+    if 'usuario' not in session:
+        return redirect('/login')
+    
+    usuario = session['usuario']
+    
+    # Obtiene los IDs de los usuarios que ya está siguiendo
+    usuarios_seguidos_ids = obtener_seguidos(usuario)
+
+    # Obtiene todos los usuarios que NO está siguiendo
+    usuarios_para_seguir = Alumno.query.filter(
+        Alumno.id != usuario,  # Excluir al usuario actual
+        ~Alumno.id.in_(usuarios_seguidos_ids)  # Excluir los que ya sigue
+    ).all()
+
+    return render_template('explorar.html', usuarios=usuarios_para_seguir)
+
+
+@app.route('/logout')
+def logout():
+    session.pop('usuario', None)
+    session.pop('nombre', None)
+    session.pop('rol', None)
+    return redirect('/')
 
 
 if __name__ == '__main__':

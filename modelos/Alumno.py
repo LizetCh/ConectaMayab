@@ -2,6 +2,7 @@
 from config.sql_config import db
 from modelos.Carrera import Carrera
 from modelos.Semestre import Semestre
+from modelos.Seguidos import Seguidos
 
 # IDs de admins
 admin_ids = ['000000', '478483']
@@ -48,3 +49,17 @@ def registrar_alumno(id,nombre, apellidos, contrasenia, carrera, semestre):
     except Exception as e:
         db.session.rollback()  
         print(f'Error al registrar el alumno: {str(e)}')
+
+def obtener_seguidos(usuario):
+    try:
+        # Obtener los usuarios seguidos
+        seguidos = Seguidos.query.filter(Seguidos.id_seguidor == usuario).all()
+
+        # Extraemos los ids de los usuarios seguidos
+        ids_seguidos = [seguido.id_siguiendo for seguido in seguidos]
+
+        return ids_seguidos
+    
+    except Exception as e:
+        print(f'Error al obtener los seguidos: {str(e)}')
+        return None
