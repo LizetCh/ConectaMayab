@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
   <div class="contenido">
@@ -22,10 +23,34 @@
                 </div>
             </div>
             <div class="profile-bio">
-                <h2>Biografía</h2>
-                <p>{{ bio }}</p>
+              
+              <!-- Mostrar biografía si no está en modo edición -->
+              <form action = "/update-bio" method="POST">
+                
+                {% if not bio_edit_mode %}
+                  <div class="bio-heading"">
+                    <h2 >Biografía </h2>
+                    <a class="fa" type="button" href="{{ url_for('edit_bio') }}" >  &#xf040;</a>
+                  </div>
+                  <p>{{ bio }}</p>    
+                
+                {% else %}
+                  <div class="bio-edition">
+                    <div class="bio-heading">
+                      <h2>Biografía </h2>
+                      <button type="submit">Guardar</button>
+                    </div>
+                    <textarea name="bio">{{ bio }}</textarea>
+                  </div>
+                    
+                  
+                  
+                {% endif %}
+            </form>
             </div>
         </div>
     </div>
+
+  
 </body>
 </html>

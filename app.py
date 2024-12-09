@@ -2,7 +2,7 @@ from datetime import datetime, timezone, timedelta
 from flask import Flask, redirect, render_template,request, session
 from config.sql_config import backup_sql, connect_sql
 from config.mongo_config import connect_mongo, backup_mongo
-from modelos.Alumno import Alumno, registrar_alumno, obtener_seguidos
+from modelos.Alumno import Alumno, registrar_alumno, obtener_seguidos, actualizar_bio
 from modelos.Seguidos import seguir
 import os
 
@@ -180,6 +180,7 @@ def explorar():
     
     usuario = session['usuario']
     nombre = session['nombre']
+    rol = session['rol']
 
 
     #obtiene todos los usuarios menos el usuario actual
@@ -207,7 +208,7 @@ def explorar():
         return redirect('/explorar')
         
 
-    return render_template('explorar.html', nombre = nombre, usuarios=usuarios)
+    return render_template('explorar.html', nombre = nombre, usuarios=usuarios, rol=rol)
 
 
 @app.route('/backup', methods=['GET', 'POST'])
@@ -261,6 +262,25 @@ def perfil():
 
     return render_template('perfil.html', usuario=usuario, nombre=nombre, rol=rol, semestre=semestre, carrera=carrera, bio=bio)
 
+@app.route('/edit-bio')
+def edit_bio():
+    usuario = session['usuario']
+    alumno = Alumno.query.filter(Alumno.id == usuario).first()
+    return render_template('perfil.html', nombre=alumno.nombre, semestre=alumno.semestre.semestre,
+                           carrera=alumno.carrera.nombre, bio=alumno.bio, bio_edit_mode=True)
+
+@app.route('/update-bio', methods=['POST'])
+def update_bio():
+
+    if 'usuario' not in session:
+        return render_template('login.html')
+
+    new_bio = request.form['bio']
+    print(f"Nueva biografía: {new_bio}")
+    usuario = session['usuario']
+    actualizar_bio(usuario, new_bio)  # Actualizamos la biografía en la base de datos
+    
+    return redirect('/perfil')
 
 @app.route('/logout')
 def logout():

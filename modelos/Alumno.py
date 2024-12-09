@@ -23,6 +23,9 @@ class Alumno(db.Model):
     semestre = db.relationship('Semestre', backref='alumnos')
     carrera = db.relationship('Carrera', backref='alumnos')
 
+    
+
+
 # Funciones CRUD (crear, leer, actualizar, eliminar)
 # id, nombre, apellido, contrasenia, carrera, semestre 
 def registrar_alumno(id,nombre, apellidos, contrasenia, carrera, semestre):
@@ -66,3 +69,13 @@ def obtener_seguidos(usuario):
     except Exception as e:
         print(f'Error al obtener los seguidos: {str(e)}')
         return None
+    
+def actualizar_bio(usuario, new_bio):
+        try:
+            alumno = Alumno.query.filter(Alumno.id == usuario).first()
+            alumno.bio = new_bio
+            db.session.commit()
+            print("Biografía actualizada con éxito")
+        except Exception as e:
+            db.session.rollback()
+            print(f'Error al actualizar la biografía: {str(e)}')

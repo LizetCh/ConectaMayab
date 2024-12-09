@@ -13,17 +13,17 @@
     </div>
     
     <div class="contenido">
-    <h1>Explorar Usuarios</h1>
-
-    <div class="users-container">
+  
+        <div class="users-container">
+            <h1>Explorar Usuarios</h1>
         {% if usuarios %}
         
             {% for alumno in usuarios %}
                 <div class="user-box">
-                    <div >
+                    <div>
                     <strong>{{ alumno.nombre }} {{alumno.apellido}}</strong>
                     <p class="user-info">{{ alumno.carrera }} | {{ alumno.semestre}} Semestre</p>
-                </div>
+                    </div>
                     {% if alumno.siguiendo %}
                         <span style="color: green;">Siguiendo</span>
                     {% else %}
@@ -35,10 +35,10 @@
                 </div>
             {% endfor %}
         
-        {% else %}
-            <p>No hay usuarios disponibles para seguir.</p>
-        {% endif %}
-    </div>
+            {% else %}
+                <p>No hay usuarios disponibles para seguir.</p>
+            {% endif %}
+        </div>
     </div>
 </body>
 </html>

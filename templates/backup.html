@@ -12,20 +12,22 @@
     </div>
    
     <div class="contenido">
-        <h1>Respaldo de Bases de Datos</h1>
-        <p>Haz clic en los botones para realizar el respaldo de las bases de datos:</p>
+        <div class="backup-container">
+            <h1>Respaldo de Bases de Datos</h1>
+            <p>Haz clic en los botones para realizar el respaldo de las bases de datos:</p>
 
-        <form method="POST">
-            <button type="submit" name="backup_mongo">Hacer Backup de MongoDB</button>
-            <button type="submit" name="backup_sql">Hacer Backup de SQL</button>
-        </form>
+            <form method="POST">
+                <button class="backup-button" type="submit" name="backup_mongo">Hacer Backup de MongoDB</button>
+                <button class="backup-button" type="submit" name="backup_sql">Hacer Backup de SQL</button>
+            </form>
 
-        <!-- Mensajes de éxito o error -->
-        {% if mensaje %}
-        <div class="message">
-            <p>{{ mensaje }}</p>
+            <!-- Mensajes de éxito o error -->
+            {% if mensaje %}
+            <div class="message">
+                <p>{{ mensaje }}</p>
+            </div>
+            {% endif %}
         </div>
-        {% endif %}
     </div>
 </body>
 </html>
