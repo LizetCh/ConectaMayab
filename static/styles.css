@@ -253,9 +253,11 @@ h1 {
 .profile-container {
   width: 100%;
   display: flex;
+  flex-direction: column;
   padding: 20px;
   box-sizing: border-box;
   justify-content: center;
+  align-items: center;
 }
 
 /* Profile card */
@@ -410,4 +412,48 @@ h1 {
 .bio-heading button {
   display: flex;
   margin-left: auto;
+}
+
+
+/* Profile posts */
+
+.profile-posts-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 0px;
+  width: 100%;
+  align-items: center;
+}
+
+.profile-posts-container .post {
+  width: 80%;
+  display:flex;
+  flex-direction: row;
+  justify-content: space-between;
+  
+}
+
+.post-actions {
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+  align-items: left;
+  width: 40%;
+}
+
+.post-actions textarea {
+  resize: none;
+  border-radius: 5px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  color: #555;
+
+}
+.post-actions form{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: left;
 }

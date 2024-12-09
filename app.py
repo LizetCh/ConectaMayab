@@ -1,5 +1,6 @@
 from datetime import datetime, timezone, timedelta
-from flask import Flask, redirect, render_template,request, session
+from bson import ObjectId
+from flask import Flask, flash, redirect, render_template,request, session
 from config.sql_config import backup_sql, connect_sql
 from config.mongo_config import connect_mongo, backup_mongo
 from modelos.Alumno import Alumno, registrar_alumno, obtener_seguidos, actualizar_bio
@@ -155,7 +156,7 @@ def home():
                 if posts:
                     print("Posts obtenidos con éxito")
                 else:
-                    mensaje = "Aun no hay posts..."
+                    mensaje = "Aún no hay posts..."
             else:  
                 mensaje = "Sigue a otros alumnos para ver sus posts."
                 posts = [] 
@@ -225,6 +226,7 @@ def backup():
     
     usuario = session['usuario']
     nombre = session['nombre']
+    rol = session['rol']
 
 
     if request.method == 'POST':
@@ -236,10 +238,10 @@ def backup():
             render_template('backup.html',mensaje=mensaje)
 
 
-    return render_template('backup.html',usuario=usuario, nombre= nombre, mensaje=mensaje)
+    return render_template('backup.html',usuario=usuario, nombre= nombre, mensaje=mensaje, rol=rol)
 
 
-@app.route('/perfil')
+@app.route('/perfil', methods=['GET', 'POST'])
 def perfil():
     # Verifica que el usuario esté en la sesión
     if 'usuario' not in session:
@@ -260,7 +262,23 @@ def perfil():
         carrera = None
 
 
-    return render_template('perfil.html', usuario=usuario, nombre=nombre, rol=rol, semestre=semestre, carrera=carrera, bio=bio)
+    # Obtener los posts de la base de datos
+    
+    posts = []
+    try:
+        mensaje = None
+        
+        posts = list(db_mongo.posts.find({'id_alumno': usuario}).sort('fecha', -1))
+        if posts:
+            print("Posts personales obtenidos con éxito")
+        else:
+            mensaje = "Aún no has escrito ningún post..."   
+                 
+                   
+    except Exception as e:
+        print(f"Error al obtener los posts: {e}")
+
+    return render_template('perfil.html', usuario=usuario, nombre=nombre, rol=rol, semestre=semestre, carrera=carrera, bio=bio, mensaje=mensaje, posts=posts)
 
 @app.route('/edit-bio')
 def edit_bio():
@@ -281,6 +299,33 @@ def update_bio():
     actualizar_bio(usuario, new_bio)  # Actualizamos la biografía en la base de datos
     
     return redirect('/perfil')
+
+
+@app.route('/editar_post', methods=['POST'])
+def editar_post():
+    post_id = request.form.get('post_id')
+    nuevo_contenido = request.form.get('contenido')
+
+    # Actualizar contenido del post en MongoDB
+    db_mongo.posts.update_one(
+        {'_id': ObjectId(post_id)},
+        {'$set': {'contenido': nuevo_contenido}}
+    )
+    flash('Post actualizado con éxito')
+
+    return redirect('/perfil')
+
+@app.route('/eliminar_post', methods=['POST'])
+def eliminar_post():
+    post_id = request.form.get('post_id')
+
+    # Eliminar post en MongoDB
+    db_mongo.posts.delete_one({'_id': ObjectId(post_id)})
+    print('Post eliminado con éxito')
+
+    return redirect('/perfil')
+
+
 
 @app.route('/logout')
 def logout():

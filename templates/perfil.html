@@ -49,6 +49,43 @@
             </form>
             </div>
         </div>
+
+
+        <!-- Edición de posts -->
+        <h2>Mis Posts</h2>
+        
+          <div class="profile-posts-container">
+            {% for post in posts %}
+            
+
+            
+              <div class="post">
+                <div>
+                <div class="post-header">
+                  <strong>{{ post['nombre'] }}</strong>
+                  <span class="post-date" data-date="{{ post['fecha'] }}"></span>
+                </div>
+                <div class="post-content">
+                  <p>{{ post['contenido'] }}</p>
+                </div>
+              </div>
+                <div class="post-actions">
+                  <form method="POST" action="/editar_post">
+                      <input type="hidden" name="post_id" value="{{ post._id }}">
+                      <textarea name="contenido" rows="2" cols="50">{{ post.contenido }}</textarea>
+                      <button type="submit">Actualizar Post</button>
+                  </form>
+                  <form method="POST" action="/eliminar_post">
+                      <input type="hidden" name="post_id" value="{{ post._id }}">
+                      <button type="submit">Eliminar Post</button>
+                  </form>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+
+          
+
     </div>
 
   
