@@ -20,6 +20,7 @@ class Alumno(db.Model):
     carrera_id = db.Column(db.Integer, db.ForeignKey('carreras.id'), nullable=False)
     semestre_id = db.Column(db.Integer, db.ForeignKey('semestres.id'), nullable=False)
 
+
     semestre = db.relationship('Semestre', backref='alumnos')
     carrera = db.relationship('Carrera', backref='alumnos')
 
@@ -72,8 +73,13 @@ def obtener_seguidos(usuario):
     
 def actualizar_bio(usuario, new_bio):
         try:
+            
+            
             alumno = Alumno.query.filter(Alumno.id == usuario).first()
+
+
             alumno.bio = new_bio
+
             db.session.commit()
             print("Biografía actualizada con éxito")
         except Exception as e:

@@ -274,6 +274,10 @@ def perfil():
 
 @app.route('/edit-bio')
 def edit_bio():
+    
+    if 'usuario' not in session:
+        return render_template('login.html')
+
     usuario = session['usuario']
     alumno = Alumno.query.filter(Alumno.id == usuario).first()
     return render_template('perfil.html', nombre=alumno.nombre, semestre=alumno.semestre.semestre,
