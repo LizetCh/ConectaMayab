@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Backup de Bases de Datos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div>
+        {% include "menu.html" %}
+    </div>
+   
+    <div class="contenido">
+        <h1>Respaldo de Bases de Datos</h1>
+        <p>Haz clic en los botones para realizar el respaldo de las bases de datos:</p>
+
+        <form method="POST">
+            <button type="submit" name="backup_mongo">Hacer Backup de MongoDB</button>
+            <button type="submit" name="backup_sql">Hacer Backup de SQL</button>
+        </form>
+
+        <!-- Mensajes de éxito o error -->
+        {% if mensaje %}
+        <div class="message">
+            <p>{{ mensaje }}</p>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

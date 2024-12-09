@@ -15,3 +15,18 @@ class Seguidos(db.Model):
     )
 
 
+def seguir(usuario, id_a_seguir):
+    
+    try:
+        # Verificar si ya se está siguiendo
+        ya_seguidos = Seguidos.query.filter_by(id_seguidor=usuario, id_siguiendo=id_a_seguir).first()
+        if not ya_seguidos:
+            nuevo_seguido = Seguidos(id_seguidor=usuario, id_siguiendo=id_a_seguir)
+            db.session.add(nuevo_seguido)
+            db.session.commit()
+            print(f"Usuario {usuario} ahora sigue a {id_a_seguir}")
+        else:
+            print(f"Ya estás siguiendo al usuario {id_a_seguir}")
+    except Exception as e:
+            db.session.rollback()
+            print(f"Error al seguir usuario: {e}")

@@ -8,27 +8,37 @@
 </head>
 <body>
     
-    {% include "menu.html" %}
+    <div>
+        {% include "menu.html" %}
+    </div>
     
+    <div class="contenido">
     <h1>Explorar Usuarios</h1>
 
-    {% if usuarios %}
-        <ul>
-            {% for usuario in usuarios %}
-                <li>
-                    <div>
-                        <strong>{{ usuario.nombre }} {{ usuario.apellidos }}</strong> 
-                        <span>({{ usuario.carrera.nombre }})</span>
-                        <form action="/seguir" method="POST" style="display:inline;">
-                            <input type="hidden" name="id_seguir" value="{{ usuario.id }}">
+    <div class="users-container">
+        {% if usuarios %}
+        
+            {% for alumno in usuarios %}
+                <div class="user-box">
+                    <div >
+                    <strong>{{ alumno.nombre }} {{alumno.apellido}}</strong>
+                    <p class="user-info">{{ alumno.carrera }} | {{ alumno.semestre}} Semestre</p>
+                </div>
+                    {% if alumno.siguiendo %}
+                        <span style="color: green;">Siguiendo</span>
+                    {% else %}
+                        <form action="/explorar" method="POST" style="display: inline;">
+                            <input type="hidden" name="id_a_seguir" value="{{ alumno.id }}">
                             <button type="submit">Seguir</button>
                         </form>
-                    </div>
-                </li>
+                    {% endif %}
+                </div>
             {% endfor %}
-        </ul>
-    {% else %}
-        <p>No hay usuarios disponibles para seguir.</p>
-    {% endif %}
+        
+        {% else %}
+            <p>No hay usuarios disponibles para seguir.</p>
+        {% endif %}
+    </div>
+    </div>
 </body>
 </html>

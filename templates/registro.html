@@ -79,6 +79,11 @@
                 
             </select>
 
+            <!-- Mostrar mensaje de error -->
+            {% if error %}
+                <div class="error-message">{{ error }}</div>
+            {% endif %}
+
             <button type="submit">Registrar</button>
         </form>
     </div>

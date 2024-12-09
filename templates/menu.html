@@ -5,5 +5,12 @@
   <a href="/explorar">Explorar</a>
   <a href="/perfil">Perfil</a>
   <a href="/logout">Cerrar sesión</a>
+
+
+
+  {% if rol == 'admin' %}
+        <a href="/backup" class="admin-button">Realizar Backup</a>
+  {% endif %}
+
   <h1 class="home-header">¡Hola, {{ nombre }}!</h1>
 </div>

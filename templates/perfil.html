@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <div class="contenido">
+    {% include "menu.html" %}
+    <div class="profile-container">
+        <div class="profile-card">
+            <div class="profile-header">
+                <div class="profile-avatar">
+                    <img src="/static/img/avatar-default.png" alt="Avatar">
+                </div>
+                <div class="profile-info">
+                    <h1 class="profile-name">{{ nombre }}</h1>
+                    <p class="profile-semester"> {{ semestre }} Semestre</p>
+                    <p class="profile-career">Carrera: {{ carrera }}</p>
+                </div>
+            </div>
+            <div class="profile-bio">
+                <h2>Biografía</h2>
+                <p>{{ bio }}</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

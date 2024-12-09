@@ -40,12 +40,15 @@ def registrar_alumno(id,nombre, apellidos, contrasenia, carrera, semestre):
             contrasenia = contrasenia,
             carrera_id = carrera,
             semestre_id = semestre,
-            rol = rol
+            rol = rol,
+            bio = "No tiene biografía aún.."
             
         )
+        #transacción
         db.session.add(nuevo_alumno)
         db.session.commit()
         print("Alumno creado con éxito") 
+        return nuevo_alumno
     except Exception as e:
         db.session.rollback()  
         print(f'Error al registrar el alumno: {str(e)}')
