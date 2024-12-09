@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+# Obtener detalles de conexión de mongo
 MONGO_USER = os.getenv('MONGO_USER')
 MONGO_PASSWORD = os.getenv('MONGO_PASSWORD')
 
@@ -13,8 +14,6 @@ uri = f"mongodb+srv://{MONGO_USER}:{MONGO_PASSWORD}@cluster0.9xwfo.mongodb.net/?
 
 def connect_mongo():
   try:
-    # Obtener detalles de conexión de mongo
-    
     
     # Crear nuevo cliente y conectar a la base de datos
     mongo_client = MongoClient(uri, ssl=True, tlsAllowInvalidCertificates=True)
@@ -46,7 +45,7 @@ def backup_mongo():
         # Ejecutar el comando mongodump
         subprocess.run(command, check=True)
         print("Backup de MongoDB realizado con éxito en", backup_folder)
-        return f"Backup de MongoDB realizado con éxito"
+        return "Backup de MongoDB realizado con éxito"
     
     except subprocess.CalledProcessError as e:
         print(f"Error al realizar el backup de MongoDB: {e}")

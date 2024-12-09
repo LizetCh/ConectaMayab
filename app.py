@@ -1,6 +1,6 @@
 from datetime import datetime, timezone, timedelta
 from flask import Flask, redirect, render_template,request, session
-from config.sql_config import connect_sql
+from config.sql_config import backup_sql, connect_sql
 from config.mongo_config import connect_mongo, backup_mongo
 from modelos.Alumno import Alumno, registrar_alumno, obtener_seguidos
 from modelos.Seguidos import seguir
@@ -228,7 +228,7 @@ def backup():
 
     if request.method == 'POST':
         if 'backup_sql' in request.form:
-            
+            mensaje = backup_sql()
             render_template('backup.html',mensaje=mensaje)
         elif 'backup_mongo' in request.form:
             mensaje = backup_mongo()
