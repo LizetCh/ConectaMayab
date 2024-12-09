@@ -146,25 +146,17 @@ def home():
         else:
             # Obtener los IDs de los usuarios seguidos
             ids_seguidos = obtener_seguidos(usuario)
+            ids_seguidos.append(usuario)  # Agregar el ID del usuario actual
+            posts = list(db_mongo.posts.find({"id_alumno": {"$in": ids_seguidos}}).sort('fecha', -1))
             
-
             # Si el usuario no sigue a nadie, mostrar el mensaje
-            if ids_seguidos:
-                # Si sigue a otros, obtener los posts de esos usuarios
-                ids_seguidos.append(usuario)  # Agregar el ID del usuario actual
-                posts = list(db_mongo.posts.find({"id_alumno": {"$in": ids_seguidos}}).sort('fecha', -1))
-                if posts:
-                    print("Posts obtenidos con éxito")
+            if not posts:
+                if ids_seguidos.count(usuario) == 1:
+                    mensaje = "Sigue a otros alumnos para ver sus posts."
                 else:
                     mensaje = "Aún no hay posts..."
-            else:  
-                mensaje = "Sigue a otros alumnos para ver sus posts."
-                posts = [] 
-        
-                
-
-                
-                   
+                    posts = [] 
+           
         return render_template('home.html', usuario=usuario, nombre=nombre, posts=posts, rol=rol, mensaje=mensaje)
     except Exception as e:
         print(f"Error al obtener los posts: {e}")
