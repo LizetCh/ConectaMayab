@@ -20,4 +20,3 @@ Usuario
 1. Añadir intereses y comunidades de alumnos
 2. Añadir "editar mi perfil"
 3. Añadir ver perfiles de otros usuarios
-4. Añadir "eliminar post"

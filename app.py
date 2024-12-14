@@ -20,7 +20,7 @@ db_mongo = connect_mongo()
 def index():
     if 'usuario' in session:
         return redirect('/home')
-    return render_template('login.html')
+    return render_template('index.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -38,11 +38,11 @@ def login():
 
         # Verificar si el usuario existe
         if usuario is None:
-            return render_template('login.html', error="El usuario no existe")
+            return render_template('index.html', error="El usuario no existe")
 
         # Verificar si la contraseña es correcta
         if usuario.contrasenia != contrasenia:
-            return render_template('login.html', error="Contraseña incorrecta")
+            return render_template('index.html', error="Contraseña incorrecta")
         
         print(f"Usuario encontrado: {usuario}")
 
@@ -59,7 +59,7 @@ def login():
 
             return redirect('/home')
             
-    return render_template('login.html')
+    return render_template('index.html')
 
 @app.route('/registro', methods=['GET','POST'])
 def registrar():
@@ -105,7 +105,7 @@ def home():
 
     # Verifica que el usuario esté en la sesión
     if 'usuario' not in session:
-        return render_template('login.html')
+        return render_template('index.html')
     
     usuario = session['usuario']  # Recupera el usuario desde la sesión
     nombre = session['nombre']
@@ -210,7 +210,7 @@ def backup():
 
     # Verifica que el usuario esté en la sesión
     if 'usuario' not in session:
-        return render_template('login.html')
+        return render_template('index.html')
     
     #verificar si el usuario es admin
     if session['rol'] != 'admin':
@@ -276,7 +276,7 @@ def perfil():
 def edit_bio():
     
     if 'usuario' not in session:
-        return render_template('login.html')
+        return render_template('index.html')
 
     usuario = session['usuario']
     alumno = Alumno.query.filter(Alumno.id == usuario).first()
@@ -287,7 +287,7 @@ def edit_bio():
 def update_bio():
 
     if 'usuario' not in session:
-        return render_template('login.html')
+        return render_template('index.html')
 
     new_bio = request.form['bio']
     print(f"Nueva biografía: {new_bio}")
